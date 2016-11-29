@@ -1,6 +1,6 @@
 {
   "name": "bacharu",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Virtual DOM suitable for websites.",
   "main": "dist/index.js",
   "jsnext:main": "dist/index.es2105.js",
