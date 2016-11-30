@@ -6,9 +6,7 @@ const document = jsdom(`
     <head>
       <title>Example</title>
     </head>
-    <body>
-
-    </body>
+    <body></body>
   </html>
   `)
 

@@ -43,8 +43,9 @@ export function updateElement ($parent, newNode, oldNode, index = 0) {
     )
   }
   else if (newNode.type) {
+
     updateProps (
-      $parent.childNodes[index],
+      $parent.children[index],
       newNode.props,
       oldNode.props
     )
@@ -54,7 +55,7 @@ export function updateElement ($parent, newNode, oldNode, index = 0) {
 
     for (let i = 0; i < newLength || i < oldLength; i++) {
       updateElement (
-        $parent.childNodes[index],
+        $parent.children[index],
         newNode.children[i],
         oldNode.children[i],
         i

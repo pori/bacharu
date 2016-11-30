@@ -1,9 +1,17 @@
 /** @jsx h */
 
-import test from 'tape'
+import wrapper from './_utils/wrapper.js'
 import { h, createElement, changed, updateElement, setProp, setProps,
   removeProp, updateProp, updateProps, isEventProp, extractEventName,
-  addEventListeners, } from '../'
+  addEventListeners, } from '../index.js'
+
+const test = wrapper(function() {
+  if (document.body.children.length) {
+    let child = document.body.children[0]
+
+    document.body.removeChild(child)
+  }
+})
 
 test('Makes DOM object representaion.', t => {
   t.plan(3)
@@ -34,7 +42,7 @@ test('Makes DOM object representaion.', t => {
 })
 
 test('Add elements to Document.', t => {
-  t.plan(3)
+  t.plan(5)
 
   let list = (
     <ul className="list">
@@ -52,12 +60,8 @@ test('Add elements to Document.', t => {
   t.equal($root.children.length, 1)
   t.equal($root.children[0].className, 'list')
   t.equal($root.children[0].children.length, 2)
-
-  // after
-
-  let child = document.body.children[0]
-
-  document.body.removeChild(child)
+  t.equal($root.children[0].children[0].textContent, 'item 1')
+  t.equal($root.children[0].children[1].textContent, 'item 2')
 })
 
 test('Evaluate changes between to nodes.', t => {
@@ -71,9 +75,7 @@ test('Evaluate changes between to nodes.', t => {
   t.false(changed('a', 'a'))
 })
 
-test.skip('Replace nodes in a tree based on changes.', t => {
-  t.plan(3)
-
+test('Replace nodes in a tree based on changes.', t => {
   const a = (
     <ul>
       <li>item 1</li>
@@ -82,6 +84,12 @@ test.skip('Replace nodes in a tree based on changes.', t => {
   )
 
   const b = (
+    <ul>
+      <li>item 1</li>
+    </ul>
+  )
+
+  const c = (
     <ul>
       <li>item 1</li>
       <li>hello!</li>
@@ -97,7 +105,17 @@ test.skip('Replace nodes in a tree based on changes.', t => {
 
   updateElement($root, b, a)
 
+  t.equal($root.children[0].children.length, 1)
+
+  updateElement($root, a, b)
+
+  t.equal($root.children[0].children[1].textContent, 'item 2')
+
+  updateElement($root, c, a)
+
   t.equal($root.children[0].children[1].textContent, 'hello!')
+
+  t.end()
 })
 
 test('Set a property.', t => {
@@ -141,7 +159,7 @@ test('Remove a property.', t => {
   t.equal($target.href, '')
 })
 
-test.skip('Update a property based on different values.', t => {
+test('Update a property based on different values.', t => {
   t.plan(3)
 
   let $target = document.createElement('a')
@@ -165,7 +183,7 @@ test.skip('Update a property based on different values.', t => {
   t.equal($target.href, 'about:blank#')
 })
 
-test.skip('Update a bunch of properties.', t => {
+test('Update a bunch of properties.', t => {
   t.plan(2)
 
   let $target = document.createElement('a')
