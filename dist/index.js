@@ -55,13 +55,14 @@ function updateElement($parent, newNode, oldNode) {
   } else if (changed(newNode, oldNode)) {
     $parent.replaceChild(createElement(newNode), $parent.childNodes[index]);
   } else if (newNode.type) {
-    updateProps($parent.childNodes[index], newNode.props, oldNode.props);
+
+    updateProps($parent.children[index], newNode.props, oldNode.props);
 
     var newLength = newNode.children.length;
     var oldLength = oldNode.children.length;
 
     for (var i = 0; i < newLength || i < oldLength; i++) {
-      updateElement($parent.childNodes[index], newNode.children[i], oldNode.children[i], i);
+      updateElement($parent.children[index], newNode.children[i], oldNode.children[i], i);
     }
   }
 }
