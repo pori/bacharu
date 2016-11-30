@@ -180,7 +180,7 @@ test('Update a property based on different values.', t => {
 
   updateProp($target, 'href', null, '#')
 
-  t.equal($target.href, 'about:blank#')
+  t.equal($target.href, '')
 })
 
 test('Update a bunch of properties.', t => {
